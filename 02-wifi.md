@@ -16,10 +16,10 @@
 
 | SSID | Тип | VLAN | Шифрование | Устройства |
 |------|-----|------|------------|------------|
-| RSW-Union | Main | 1 | PEAP | ...
-| RSW-Country-Base | IoT | 10 | WPA3 | ...
-| RSW-Guests | Guests | 49 | WPA2-PSK | ...
-| RSW-Video | Video | 50 | WPA2-PSK | ...
+| RSW-Union | Main | 1 | 802.1X (EAP) + WPA2/WPA3 mixed | см. Notion WiFi |
+| RSW-Country-Base | IoT | 10 | WPA2-PSK (AES) | см. Notion WiFi |
+| RSW-Guests | Guests | 49 | WPA2/WPA3 mixed | см. Notion WiFi |
+| RSW-Video | Video | 50 | WPA2/WPA3 mixed | см. Notion WiFi |
 
 ## 📊 Покрытие
 

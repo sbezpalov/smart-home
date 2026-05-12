@@ -2,7 +2,7 @@
 
 # 🎤 Голосовая инфраструктура (VoIP)
 
-Консоль: **https://bezpalov.3cx.eu:5001/**
+Консоль: `https://bezpalov.3cx.eu:5001/` (хост `bezpalov.3cx.eu`)
 
 ## 📞 АТС (IP-телефония)
 
@@ -57,15 +57,16 @@
 
 ## 🏢 Departments
 
-- **DEFAULT** — основные пользователи семьи.
-- **Hikvision** — отдел под интеграции/группу приёма вызовов (Office Hours: Configured).
-- **Operators** — System Operator, Bond James.
+- **DEFAULT** — Bezpalov (Sergey, Irina, Alexandr, Alexey), Bazankova (Tat'yana, Anna) и др.
+- **Hikvision** — отдел под интеграции / группу приёма (Office Hours: Configured).
+- **Operators** — Operator, System; Bond, James (как в консоли 3CX).
 
 ## 🌐 Настройки сети
 
 | Параметр | Значение |
 |----------|----------|
 | **VLAN** | 20 (Voice), GW **10.254.20.1** (FortiGate) |
+| **Публичный URL консоли** | `https://bezpalov.3cx.eu:5001/`; хост `bezpalov.3cx.eu`; проброс — VIP **CH 3CX** на **Network** |
 
 ## 🔧 Дополнительная информация
 
