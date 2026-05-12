@@ -49,9 +49,9 @@
 | 10.254.10.2 | ch-wirenboard | Wirenboard |
 | 10.254.10.3 | ch-smart | Home Assistant |
 | 10.254.10.4 | ch-waf | EasyWAF |
-| 10.254.10.5 | *(UI: CH-L2-Gate)* | LoRaWAN шлюз Lavritech **L2 Gate D2-Lora-ETH** → MQTT на **ch-wirenboard** |
+| 10.254.10.5 | (UI: CH-L2-Gate) | LoRaWAN Lavritech **L2 Gate D2-Lora-ETH**, MQTT на **ch-wirenboard** (**10.254.10.2:1883**) |
 
-*Контроллер **ch-wirenboard** (Wiren Board), LoRaWAN-шлюз, MQTT — см. `07-wirenboard.md`.*
+*Контроллер **ch-wirenboard**, LoRaWAN, MQTT — см. `07-wirenboard.md`; в Notion — страница **Устройства** (тот же текст + таблицы).*
 
 *⚠️ Адрес **10.254.10.5** совпадает с нижней границей DHCP-пула VLAN 10 (**10.254.10.5–250** на FortiGate). Нужна **резервация** этого IP или сдвиг пула (например с **10.254.10.10**), иначе возможен конфликт выдачи.*
 
