@@ -50,6 +50,8 @@
 | 10.254.10.3 | ch-smart | Home Assistant |
 | 10.254.10.4 | ch-waf | EasyWAF |
 
+*Контроллер **ch-wirenboard** (Wiren Board): прошивка, модули, MQTT/HA — см. `07-wirenboard.md`.*
+
 ## 🧭 DNS серверы
 
 | Роль | IP-адрес | Примечания |
