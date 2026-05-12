@@ -1,4 +1,4 @@
-Используя Notion MCP, на странице "Network" создай следующую структуру:
+Используя Notion MCP 'Документация к Умному дому' (https://www.notion.so/35e50b4d7304808a9c55ff5bfd567ded), на странице "Network" создай следующую структуру:
 
 # 🌐 Сетевая инфраструктура
 
@@ -48,5 +48,6 @@
 - W:\private\smart-home\sources\CG.conf
 - W:\private\smart-home\sources\CX.conf
 - W:\private\smart-home\sources\ISW16803.conf
+- W:\private\smart-home\sources\LTE.conf
 
-Собери из них все IP-адреса, имена устройств, интерфейсы и VLAN.
+Собери из них все IP-адреса, имена устройств, интерфейсы и VLAN. Актуальное заполнение страницы Network в Notion синхронизируй с этими файлами.
