@@ -1,0 +1,29 @@
+Используя Notion MCP, на странице "WiFi" создай следующую структуру:
+
+# 📡 Беспроводная сеть
+
+## 📍 Точки доступа (AP)
+
+| Точка доступа | Модель | Расположение | Канал (2.4GHz) | Канал (5GHz) | Мощность |
+|---------------|--------|--------------|----------------|--------------|----------|
+| AP-1 | Ruckus R550 | Living Room L | ...
+| AP-2 | Ruckus R550 | Dining Room | ...
+| AP-3 | Ruckus R350 | Living Room C | ...
+| AP-4 | Ruckus R350 | Living Room F | ...
+| AP-5 | Ruckus T350D | Bathhouse Ext | ...
+
+## 🌐 SSID и настройки
+
+| SSID | Тип | VLAN | Шифрование | Устройства |
+|------|-----|------|------------|------------|
+| RSW-Union | Main | 1 | PEAP | ...
+| RSW-Country-Base | IoT | 10 | WPA3 | ...
+| RSW-Guests | Guests | 49 | WPA2-PSK | ...
+| RSW-Video | Video | 50 | WPA2-PSK | ...
+
+## 📊 Покрытие
+
+Используя filesystem MCP, прочитай содержимое файлов:
+- W:\private\smart-home\sources\Ruckus.conf
+
+Страница Notion **WiFi** заполняется по этому файлу (актуальное содержимое — в Notion).
