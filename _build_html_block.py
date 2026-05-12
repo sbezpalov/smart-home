@@ -1,0 +1,186 @@
+# -*- coding: utf-8 -*-
+"""Build Notion-safe HTML block for Rooms page (no pipe tables)."""
+out = """## Расширенная информация по комнатам
+
+- **Освещение / климат:** в выгрузках коммутаторов нет связки «группа света / теплый пол → порт» — перенос из схем щита или контроллера (Wirenboard, Aqara).
+- **Камеры:** IP и каналы NVR — **Video and Security**; привязку к комнатам дать после обхода или из iVMS (в `CX`/`ISW` нет имён комнат на портах камер).
+
+## Привязка устройств к комнатам
+
+### Узел **ch-switch-02** (`CX.conf`)
+
+<table header-row="true">
+<tr>
+<td>description (порт)</td>
+<td>VLAN / режим</td>
+<td>Зона (логическая)</td>
+</tr>
+<tr>
+<td>Router (LAN) **Gi0/3**</td>
+<td>trunk 1,10,20,30,49,50</td>
+<td>магистраль к FGT</td>
+</tr>
+<tr>
+<td>Workplace (Living Room F) **Gi0/4**</td>
+<td>access + **voice 20**</td>
+<td>**Living Room F**</td>
+</tr>
+<tr>
+<td>TV (Dining Room) **Gi0/5**</td>
+<td>access **10**</td>
+<td>**Dining Room**</td>
+</tr>
+<tr>
+<td>Aqara Hub M3 (pri) **Gi0/6**</td>
+<td>access **10**</td>
+<td>не указана в конфиге</td>
+</tr>
+<tr>
+<td>TV (Living Room C) **Gi0/7**</td>
+<td>access **10**</td>
+<td>**Living Room C**</td>
+</tr>
+<tr>
+<td>TV (Living Room L) **Gi0/8**</td>
+<td>access **10**, `shutdown`</td>
+<td>**Living Room L**</td>
+</tr>
+<tr>
+<td>L2 Gate **Gi0/9**</td>
+<td>access **10**</td>
+<td>не указана</td>
+</tr>
+<tr>
+<td>Wirenboard **Gi0/10**</td>
+<td>access **10**</td>
+<td>не указана</td>
+</tr>
+<tr>
+<td>Hikvision AX Pro **Gi0/11**</td>
+<td>access **50**</td>
+<td>панель охраны (см. **Hallway** в основной таблице)</td>
+</tr>
+<tr>
+<td>ISP (Sec) Mikrotik LTE **Gi0/12**</td>
+<td>trunk 10,50,155</td>
+<td>внешний узел LTE/AP</td>
+</tr>
+</table>
+
+### Узел **ch-switch-01** (`CG.conf`)
+
+<table header-row="true">
+<tr>
+<td>description</td>
+<td>Порт</td>
+<td>VLAN</td>
+<td>Комментарий</td>
+</tr>
+<tr>
+<td>Management</td>
+<td>Gi0/1</td>
+<td>50</td>
+<td>управление</td>
+</tr>
+<tr>
+<td>Hypervisor</td>
+<td>Gi0/2</td>
+<td>trunk 1,10,20,30,50</td>
+<td>Proxmox</td>
+</tr>
+<tr>
+<td>NVR</td>
+<td>Gi0/3</td>
+<td>50</td>
+<td>`10.254.50.2` (см. **Video and Security**)</td>
+</tr>
+<tr>
+<td>IPCam</td>
+<td>Gi0/4</td>
+<td>50</td>
+<td>кольцо камер / ISW</td>
+</tr>
+<tr>
+<td>AP (3P) … AP (7P)</td>
+<td>Gi0/5–8</td>
+<td>trunk</td>
+<td>четыре внутренних AP; соответствие 3P/4P/6P/7P ↔ имя AP в `Ruckus` — по MAC/LLDP на площадке</td>
+</tr>
+</table>
+
+### Wi‑Fi (зона = Description AP в `Ruckus.conf`)
+
+<table header-row="true">
+<tr>
+<td>AP</td>
+<td>Модель</td>
+<td>Зона</td>
+</tr>
+<tr>
+<td>**ch-int-ap-01**</td>
+<td>R550</td>
+<td>**Dining Room**</td>
+</tr>
+<tr>
+<td>**ch-int-ap-02**</td>
+<td>R550</td>
+<td>**Living Room L**</td>
+</tr>
+<tr>
+<td>**ch-int-ap-03**</td>
+<td>R350</td>
+<td>**Living Room F**</td>
+</tr>
+<tr>
+<td>**ch-int-ap-04**</td>
+<td>R350</td>
+<td>**Living Room C**</td>
+</tr>
+<tr>
+<td>**ch-ext-ap**</td>
+<td>T350D</td>
+<td>**Bathhouse** (outdoor)</td>
+</tr>
+</table>
+
+### Камеры и NVR (факты из `03-security.md`)
+
+<table header-row="true">
+<tr>
+<td>IP</td>
+<td>NVR</td>
+<td>Комната в документе</td>
+</tr>
+<tr>
+<td>**10.254.50.2**</td>
+<td>NVR</td>
+<td>узел записи (**CG** Gi0/3), не жилая комната</td>
+</tr>
+<tr>
+<td>10.254.50.3–10, .9</td>
+<td>каналы D1–D7, D9</td>
+<td>— (уточнить по плану / iVMS)</td>
+</tr>
+<tr>
+<td>**10.0.50.5**</td>
+<td>D8</td>
+<td>отдельная подсеть **10.0.50.0/24**</td>
+</tr>
+</table>
+
+### Подстраницы (черновики, RU)
+
+Сопоставление «в лоб» не всегда верно: **Гостиная** может покрывать **Living Room L/C/F**; **Спальня** в EN-таблице пока не вынесена — добавить строку при инвентаризации.
+
+<page url="https://www.notion.so/35e50b4d730481b4b680f5541b05fc2f">Гостиная</page>
+<page url="https://www.notion.so/35e50b4d7304819583cece0491b86ff3">Кухня</page>
+<page url="https://www.notion.so/35e50b4d7304812197aae44a9c889e2c">Спальня</page>
+<page url="https://www.notion.so/35e50b4d7304819aad01fce01ec7cc3d">Кабинет</page>
+<page url="https://www.notion.so/35e50b4d730481ffb20afcd863aabbe4">Коридор</page>
+
+*Источники: **`05-rooms.md`**, **`sources/CX.conf`**, **`sources/CG.conf`**, **`sources/Ruckus.conf`**, **`03-security.md`**, Notion **WiFi**, **Video and Security**.*"""
+
+import pathlib
+
+pathlib.Path("_block_new_html.txt").write_text(out, encoding="utf-8")
+print(len(out))

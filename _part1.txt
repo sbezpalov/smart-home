@@ -1,0 +1,170 @@
+Перепроверено по **`CX.conf`** (hostname **ch-switch-02**), **`CG.conf`** (**ch-switch-01**), **`Ruckus.conf`**, локальному **`03-security.md`** и странице **WiFi** в Notion. Имена зон — EN (как у AP); русские подстраницы ниже — черновики, не все имеют прямое соответствие.
+
+## Список помещений
+
+<table header-row="true">
+<tr>
+<td>Комната/Зона</td>
+<td>Этаж</td>
+<td>Тип</td>
+<td>Освещение</td>
+<td>Климат</td>
+<td>Безопасность</td>
+<td>Медиа</td>
+<td>Примечания</td>
+</tr>
+<tr>
+<td>**Greenhouse**</td>
+<td>1</td>
+<td>Рабочая</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>В L2 нет `description` по этой зоне — заполнить по факту</td>
+</tr>
+<tr>
+<td>**Bathhouse**</td>
+<td>1</td>
+<td>Влажная</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Наружный AP **ch-ext-ap** (**T350D**, `Ruckus`), зона **Bathhouse**</td>
+</tr>
+<tr>
+<td>**Bathhouse**</td>
+<td>2</td>
+<td>Жилая</td>
+<td>—</td>
+<td>—</td>
+<td>Домофон `DS-KH6350-WTE1` **10.254.50.21**</td>
+<td>—</td>
+<td>По **Video and Security** — «доп. в бане»</td>
+</tr>
+<tr>
+<td>**Cabin**</td>
+<td>1</td>
+<td>Служебная</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>RU-подстраница «Кабинет» ≠ обязательно этот Cabin; сверить с планом</td>
+</tr>
+<tr>
+<td>**Hallway**</td>
+<td>1</td>
+<td>Проходная</td>
+<td>—</td>
+<td>—</td>
+<td>Панель `DS-PWA96` **.18**; монитор `DS-KH9510` **.19**</td>
+<td>—</td>
+<td>Назначение комнат для панели/монитора — по смыслу «центр / основной в доме»; уточнить монтаж</td>
+</tr>
+<tr>
+<td>**Boiler Room**</td>
+<td>1</td>
+<td>Служебная</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Нет прямой подписи в L2 — оставлено как зона инженерии</td>
+</tr>
+<tr>
+<td>**Corridor**</td>
+<td>1</td>
+<td>Проходная</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>RU «Коридор»; IoT без комнаты в порту — см. узел CX ниже</td>
+</tr>
+<tr>
+<td>**Living Room L**</td>
+<td>1</td>
+<td>Жилая</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>TV (**CX Gi0/8**, VLAN 10, `shutdown`)</td>
+<td>AP **ch-int-ap-02**</td>
+</tr>
+<tr>
+<td>**Living Room C**</td>
+<td>1</td>
+<td>Жилая</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>TV (**CX Gi0/7**)</td>
+<td>AP **ch-int-ap-04**</td>
+</tr>
+<tr>
+<td>**Living Room F**</td>
+<td>1</td>
+<td>Жилая</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>AP **ch-int-ap-03**; рабочее место **CX Gi0/4** (`switchport voice vlan 20`)</td>
+</tr>
+<tr>
+<td>**Bathroom**</td>
+<td>1</td>
+<td>Влажная</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Нет привязки в приложенных `.conf`</td>
+</tr>
+<tr>
+<td>**Kitchen**</td>
+<td>1</td>
+<td>Жилая</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>В `CX.conf` нет отдельного порта с `description` «Kitchen»</td>
+</tr>
+<tr>
+<td>**Dining Room**</td>
+<td>1</td>
+<td>Жилая</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>TV (**CX Gi0/5**)</td>
+<td>AP **ch-int-ap-01**</td>
+</tr>
+<tr>
+<td>**Terrace**</td>
+<td>1</td>
+<td>Проходная / наружная</td>
+<td>—</td>
+<td>—</td>
+<td>Вызывная `DS-KV6113` **10.254.50.20** (калитка)</td>
+<td>—</td>
+<td>По **Video and Security**</td>
+</tr>
+</table>
+
+{{LONG_SECTION}}
+
+### Подстраницы (черновики, RU)
+
+Сопоставление «в лоб» не всегда верно: **Гостиная** может покрывать **Living Room L/C/F**; **Спальня** в EN-таблице пока не вынесена — добавить строку при инвентаризации.
+
+<page url="https://www.notion.so/35e50b4d730481b4b680f5541b05fc2f">Гостиная</page>
+<page url="https://www.notion.so/35e50b4d7304819583cece0491b86ff3">Кухня</page>
+<page url="https://www.notion.so/35e50b4d7304812197aae44a9c889e2c">Спальня</page>
+<page url="https://www.notion.so/35e50b4d7304819aad01fce01ec7cc3d">Кабинет</page>
+<page url="https://www.notion.so/35e50b4d730481ffb20afcd863aabbe4">Коридор</page>
+
+*Источники: **`05-rooms.md`**, **`sources/CX.conf`**, **`sources/CG.conf`**, **`sources/Ruckus.conf`**, **`03-security.md`**, Notion **WiFi**, **Video and Security**.*

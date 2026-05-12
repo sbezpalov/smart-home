@@ -1,0 +1,53 @@
+## Расширенная информация по комнатам
+
+- **Освещение / климат:** в выгрузках коммутаторов нет связки «группа света / теплый пол → порт» — перенос из схем щита или контроллера (Wirenboard, Aqara).
+- **Камеры:** IP и каналы NVR — **Video and Security**; привязку к комнатам дать после обхода или из iVMS (в `CX`/`ISW` нет имён комнат на портах камер).
+
+## Привязка устройств к комнатам
+
+### Узел **ch-switch-02** (`CX.conf`)
+
+- **Gi0/3** Router (LAN) — trunk 1,10,20,30,49,50 → магистраль к FGT.
+- **Gi0/4** Workplace (Living Room F) — access + **voice 20** → **Living Room F**.
+- **Gi0/5** TV (Dining Room) — VLAN **10** → **Dining Room**.
+- **Gi0/6** Aqara Hub M3 (pri) — VLAN **10** → комната в `description` не указана.
+- **Gi0/7** TV (Living Room C) — VLAN **10** → **Living Room C**.
+- **Gi0/8** TV (Living Room L) — VLAN **10**, порт **`shutdown`** → **Living Room L**.
+- **Gi0/9** L2 Gate — VLAN **10** → комната не указана.
+- **Gi0/10** Wirenboard — VLAN **10** → комната не указана.
+- **Gi0/11** Hikvision AX Pro — VLAN **50** → панель охраны (логически см. **Hallway** в основной таблице).
+- **Gi0/12** ISP (Sec) Mikrotik LTE — trunk 10,50,155 → внешний узел LTE/AP.
+
+### Узел **ch-switch-01** (`CG.conf`)
+
+- **Gi0/1** Management — VLAN 50.
+- **Gi0/2** Hypervisor — trunk 1,10,20,30,50 (Proxmox).
+- **Gi0/3** NVR — VLAN 50, `10.254.50.2` (см. **Video and Security**).
+- **Gi0/4** IPCam — VLAN 50, кольцо камер / ISW.
+- **Gi0/5–8** AP (3P) … AP (7P) — trunk к внутренним AP; соответствие подписей **3P/4P/6P/7P** именам **ch-int-ap-*** в `Ruckus` — уточнить по MAC/LLDP на площадке.
+
+### Wi‑Fi (`Ruckus.conf`, Description = зона)
+
+- **ch-int-ap-01** (R550) → **Dining Room**
+- **ch-int-ap-02** (R550) → **Living Room L**
+- **ch-int-ap-03** (R350) → **Living Room F**
+- **ch-int-ap-04** (R350) → **Living Room C**
+- **ch-ext-ap** (T350D) → **Bathhouse** (outdoor)
+
+### Камеры и NVR (`03-security.md`)
+
+- **10.254.50.2** — NVR, узел на **CG Gi0/3**, не жилая комната.
+- Каналы **D1–D7**, **D9** — адреса **10.254.50.x** / **.10** / **.9**; привязка к комнатам **—** (уточнить в iVMS / по плану).
+- **10.0.50.5** — **D8**, отдельная подсеть **10.0.50.0/24**.
+
+### Подстраницы (черновики, RU)
+
+Сопоставление «в лоб» не всегда верно: **Гостиная** может покрывать **Living Room L/C/F**; **Спальня** в EN-таблице пока не вынесена — добавить строку при инвентаризации.
+
+<page url="https://www.notion.so/35e50b4d730481b4b680f5541b05fc2f">Гостиная</page>
+<page url="https://www.notion.so/35e50b4d7304819583cece0491b86ff3">Кухня</page>
+<page url="https://www.notion.so/35e50b4d7304812197aae44a9c889e2c">Спальня</page>
+<page url="https://www.notion.so/35e50b4d7304819aad01fce01ec7cc3d">Кабинет</page>
+<page url="https://www.notion.so/35e50b4d730481ffb20afcd863aabbe4">Коридор</page>
+
+*Источники: **`05-rooms.md`**, **`sources/CX.conf`**, **`sources/CG.conf`**, **`sources/Ruckus.conf`**, **`03-security.md`**, Notion **WiFi**, **Video and Security**.*
