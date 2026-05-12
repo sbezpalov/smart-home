@@ -1,0 +1,511 @@
+Current configuration : 14899 bytes
+!
+! Last configuration change at 12:14:04 MSK Sat May 9 2026 by admin
+!
+version 15.2
+no service pad
+service timestamps debug datetime localtime
+service timestamps log datetime localtime
+service password-encryption
+service sequence-numbers
+!
+hostname ch-switch-01
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 131072 warnings
+enable secret 5 $1$8CjR$JCqTL4qrk21L.A9SWg/.j1
+!
+username admin privilege 15 secret 5 $1$izkC$mj/czx5FmvGdB5cD1QG7M0
+aaa new-model
+!
+!
+aaa group server radius rad_eap
+ server name forward
+ server name direct
+!
+aaa group server radius rad_acct
+ server name forward
+ server name direct
+!
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+system mtu routing 1500
+!
+device-sensor filter-list dhcp list DHCP_LST
+ option name host-name
+ option name class-identifier
+ option name client-identifier
+!
+device-sensor filter-list cdp list CDP_LST
+ tlv name device-name
+ tlv name platform-type
+!
+device-sensor filter-list lldp list LLDP_LST
+ tlv name port-id
+ tlv name system-name
+ tlv name system-description
+device-sensor filter-spec dhcp include list DHCP_LST
+device-sensor filter-spec lldp include list LLDP_LST
+device-sensor filter-spec cdp include list CDP_LST
+device-sensor accounting
+device-sensor notify all-changes
+ip dhcp database flash:/dhcp_bindings.txt
+!
+!
+no ip dhcp snooping information option
+ip dhcp snooping
+ip domain-name home.bezpalov.com
+login block-for 300 attempts 3 within 60
+login quiet-mode access-class 15
+login on-failure log
+login on-success log
+vtp interface GigabitEthernet0/9
+!
+location civic-location identifier 1
+ country RU
+ name "Country House"
+ postal-code 607620
+!
+!
+!
+!
+!
+location geo-location identifier 1
+ latitude 56.074801
+ longitude 43.533455
+!
+udld aggressive
+
+authentication critical recovery delay 1000
+access-session template monitor
+epm logging
+!
+mls qos map cos-dscp 0 8 16 24 32 46 48 56
+mls qos srr-queue output cos-map queue 1 threshold 3 4 5
+mls qos srr-queue output cos-map queue 2 threshold 1 2
+mls qos srr-queue output cos-map queue 2 threshold 2 3
+mls qos srr-queue output cos-map queue 2 threshold 3 6 7
+mls qos srr-queue output cos-map queue 3 threshold 3 0
+mls qos srr-queue output cos-map queue 4 threshold 3 1
+mls qos srr-queue output dscp-map queue 1 threshold 3 32 33 40 41 42 43 44 45
+mls qos srr-queue output dscp-map queue 1 threshold 3 46 47
+mls qos srr-queue output dscp-map queue 2 threshold 1 16 17 18 19 20 21 22 23
+mls qos srr-queue output dscp-map queue 2 threshold 1 26 27 28 29 30 31 34 35
+mls qos srr-queue output dscp-map queue 2 threshold 1 36 37 38 39
+mls qos srr-queue output dscp-map queue 2 threshold 2 24
+mls qos srr-queue output dscp-map queue 2 threshold 3 48 49 50 51 52 53 54 55
+mls qos srr-queue output dscp-map queue 2 threshold 3 56 57 58 59 60 61 62 63
+mls qos srr-queue output dscp-map queue 3 threshold 3 0 1 2 3 4 5 6 7
+mls qos srr-queue output dscp-map queue 4 threshold 1 8 9 11 13 15
+mls qos srr-queue output dscp-map queue 4 threshold 2 10 12 14
+mls qos queue-set output 1 threshold 1 100 100 50 200
+mls qos queue-set output 1 threshold 2 125 125 100 400
+mls qos queue-set output 1 threshold 3 100 100 100 400
+mls qos queue-set output 1 threshold 4 60 150 50 200
+mls qos queue-set output 1 buffers 15 25 40 20
+mls qos
+password encryption aes
+!
+crypto pki trustpoint TP-self-signed-1455835008
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1455835008
+ revocation-check none
+ rsakeypair TP-self-signed-1455835008
+!
+!
+crypto pki certificate chain TP-self-signed-1455835008
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31343535 38333530 3038301E 170D3036 30313032 30303031 
+  30345A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 34353538 
+  33353030 3830819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100C49C A7DAB585 65214546 67BFF135 D3AA7AFB 472195CE D2F7F6CF E8DF2F84 
+  B71FBE80 6B772FB6 BB2E6AB7 43DB31CD C0E221BE F03D11C0 2EA167B0 E5E0694F 
+  857C6F0A B3931FE8 2B72C7A8 4626908E 7FCEB214 0C4F50D1 DD733C0B DA24DF41 
+  F11B4503 34CBA3C7 6F653B09 E8F2A411 50158CF0 774C8BB8 994EE933 9B4CF33F 
+  47B10203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 1486387D 4E8AE5A0 67ED358D E3B4442B CC196874 3A301D06 
+  03551D0E 04160414 86387D4E 8AE5A067 ED358DE3 B4442BCC 1968743A 300D0609 
+  2A864886 F70D0101 05050003 81810051 E3E043E2 E645431F 8C89C42B CC952542 
+  1C6C4852 0AC2E9B4 70E5740F E602583F 5868AE9A EA05B783 81163C66 069E3685 
+  99D8424C 580789DE 77FEFDE4 E3D5CC53 71CFA620 09D28FAC 08B5678A E2C45451 
+  3D08A07A 4E7F4663 9492BFCC F793097D 771D6F9C BAED4C96 FF05D25A C26FADC5 
+  0505C30A BEA4885E F4F5AB3C FB3A15
+  quit
+archive
+ path flash:/config-archive
+ maximum 14
+ write-memory
+ time-period 10080
+dot1x critical eapol
+!
+spanning-tree mode rapid-pvst
+spanning-tree loopguard default
+spanning-tree extend system-id
+spanning-tree vlan 1,10,20,30,49-50 priority 28672
+auto qos srnd4
+errdisable recovery cause udld
+errdisable recovery cause bpduguard
+errdisable recovery cause security-violation
+errdisable recovery cause channel-misconfig
+errdisable recovery cause pagp-flap
+errdisable recovery cause dtp-flap
+errdisable recovery cause link-flap
+errdisable recovery cause sfp-config-mismatch
+errdisable recovery cause gbic-invalid
+errdisable recovery cause l2ptguard
+errdisable recovery cause psecure-violation
+errdisable recovery cause port-mode-failure
+errdisable recovery cause dhcp-rate-limit
+errdisable recovery cause pppoe-ia-rate-limit
+errdisable recovery cause mac-limit
+errdisable recovery cause vmps
+errdisable recovery cause storm-control
+errdisable recovery cause inline-power
+errdisable recovery cause arp-inspection
+errdisable recovery cause loopback
+errdisable recovery cause small-frame
+errdisable recovery cause psp
+errdisable recovery interval 60
+port-channel load-balance src-dst-mac
+device classifier
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+ip tcp synwait-time 10
+lldp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/1
+ description Management
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ spanning-tree link-type point-to-point
+!
+interface GigabitEthernet0/2
+ description Hypervisor
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 1,10,20,30,50
+ switchport mode trunk
+ power inline never
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+ spanning-tree portfast trunk
+ spanning-tree link-type point-to-point
+ ip dhcp snooping trust
+!
+interface GigabitEthernet0/3
+ description NVR
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport access vlan 50
+ switchport mode access
+ power inline never
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ spanning-tree link-type point-to-point
+!
+interface GigabitEthernet0/4
+ description IPCam
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport access vlan 50
+ switchport mode access
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device ip-camera
+ mls qos trust dscp
+ auto qos video ip-camera 
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ spanning-tree link-type point-to-point
+!
+interface GigabitEthernet0/5
+ description AP (3P)
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 1,10,30,49,50
+ switchport mode trunk
+ switchport nonegotiate
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+ spanning-tree portfast trunk
+!
+interface GigabitEthernet0/6
+ description AP (6P)
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 1,10,30,49,50
+ switchport mode trunk
+ switchport nonegotiate
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+ spanning-tree portfast trunk
+!
+interface GigabitEthernet0/7
+ description AP (4P)
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 1,10,30,49,50
+ switchport mode trunk
+ switchport nonegotiate
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+ spanning-tree portfast trunk
+!
+interface GigabitEthernet0/8
+ description AP (7P)
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 1,10,30,49,50
+ switchport mode trunk
+ switchport nonegotiate
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+ spanning-tree portfast trunk
+!
+interface GigabitEthernet0/9
+ description Uplink 1 (3560CX)
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ ip arp inspection trust
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+ ip dhcp snooping trust
+!
+interface GigabitEthernet0/10
+ description Uplink 2 (4006)
+ location civic-location-id 1
+ location geo-location-id 1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ ip arp inspection trust
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+!
+interface Vlan1
+ ip address 172.16.122.252 255.255.255.0
+ ip helper-address 172.16.122.1
+ no ip redirects
+ no ip proxy-arp
+ no ip route-cache
+!
+interface Vlan10
+ ip address 10.254.10.252 255.255.255.0
+ ip helper-address 172.16.122.1
+ no ip redirects
+ no ip proxy-arp
+ no ip route-cache
+ shutdown
+!
+interface Vlan20
+ ip address 10.254.20.252 255.255.255.0
+ ip helper-address 172.16.122.1
+ no ip redirects
+ no ip proxy-arp
+ no ip route-cache
+ shutdown
+!
+interface Vlan30
+ ip address 10.254.30.252 255.255.255.0
+ ip helper-address 172.16.122.1
+ no ip redirects
+ no ip proxy-arp
+ no ip route-cache
+!
+interface Vlan49
+ ip address 10.254.49.252 255.255.255.0
+ ip helper-address 172.16.122.1
+ no ip redirects
+ no ip proxy-arp
+ no ip route-cache
+ shutdown
+!
+interface Vlan50
+ ip address 10.254.50.252 255.255.255.0
+ ip helper-address 172.16.122.1
+ no ip redirects
+ no ip proxy-arp
+ no ip route-cache
+ shutdown
+!
+interface Vlan150
+ description ISP 1 (opt)
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ shutdown
+!
+interface Vlan155
+ description ISP 2 (lte)
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ shutdown
+!
+ip default-gateway 10.254.30.1
+ip forward-protocol nd
+no ip http server
+ip http access-class 10
+ip http authentication local
+no ip http secure-server
+!
+ip ssh time-out 30
+ip ssh authentication-retries 2
+ip ssh source-interface Vlan30
+ip ssh version 2
+ip ssh server algorithm encryption aes256-ctr aes192-ctr aes128-ctr
+!
+!
+ip sla enable reaction-alerts
+ip sla responder
+access-list 10 permit 172.16.122.0 0.0.0.255
+access-list 10 permit 10.254.30.0 0.0.0.255
+access-list 10 deny   any log
+access-list 15 permit 172.16.122.0 0.0.0.255
+access-list 15 permit 10.254.30.0 0.0.0.255
+access-list 15 deny   any log
+!
+snmp-server community public RO 15
+snmp-server trap-source Vlan30
+snmp-server source-interface informs Vlan30
+snmp-server location RU, NNOV, CH
+snmp-server contact noc@bezpalov.com
+snmp-server chassis-id 3560CG
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps tty
+snmp-server enable traps config-copy
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps cpu threshold
+snmp-server enable traps bridge newroot topologychange
+snmp-server enable traps stpx inconsistency root-inconsistency loop-inconsistency
+snmp-server enable traps syslog
+snmp-server enable traps vtp
+snmp-server enable traps vlancreate
+snmp-server enable traps vlandelete
+snmp-server enable traps flash insertion removal
+snmp-server enable traps port-security
+snmp-server enable traps envmon fan shutdown supply temperature status
+snmp-server enable traps mac-notification change move threshold
+snmp-server enable traps vlan-membership
+snmp-server host 172.16.122.15 version 2c public 
+!
+radius-server attribute 6 on-for-login-auth
+radius-server attribute 6 support-multiple
+radius-server attribute 8 include-in-access-req
+radius-server attribute 25 access-request include
+radius-server dead-criteria time 30 tries 3
+radius-server deadtime 15
+radius-server vsa send cisco-nas-port
+!
+radius server forward
+ address ipv4 172.16.122.254 auth-port 1812 acct-port 1813
+ key 7 107C05344143110F3E142D3A6107140473010A350F2A6F5441714216052C0E5E777B476260500979232E7A14213D133D1E53042F767D460D0C133B2B273A01230A
+!
+radius server direct
+ address ipv4 172.16.121.254 auth-port 1812 acct-port 1813
+ key 7 14251E264850292F16383424673C202752135B7A54786D031A3A00415E634B557A781F6B33035A75213A24477E25133664144C294E341F161E1A281307122D3A14
+!
+banner login ^C
+#############################################################
+ INCO Group
+ Authorized Access Only!
+ Disconnect IMMEDIATELY if you are not an authorized user !!!
+ All actions Will be monitored and recorded
+#############################################################
+^C
+banner motd ^CC
+*---------------------------------------------------------*
+|                  - PRIVATE NETWORK -                    |
+|           - NO UNAUTHORIZED ACCESS IS ALLOWED -         |
+|                                                         |
+|                  !!!!! WARNING !!!!!                    |
+|                                                         |
+|To protect the system from unauthorized use and          |
+|to ensure that the system is functioning properly,       |
+|activities on this system are monitored and recorded     |
+|and subject to audit.                                    |
+|                                                         |
+|Any unauthorized access or use of this system is         |
+|prohibited and could be subject  to criminal and civil   |
+|penalties.                                               |
+*---------------------------------------------------------*
+^C
+!
+line con 0
+ exec-timeout 5 30
+ password 7 046B2B151C221C4A0C4B54
+ logging synchronous
+line vty 0 4
+ access-class 10 in
+ privilege level 15
+ logging synchronous
+ transport input ssh
+line vty 5 15
+ access-class 10 in
+ privilege level 15
+ logging synchronous
+ transport input ssh
+!
+ntp master 5
+ntp server 172.16.120.2
+ntp server 172.16.122.254 prefer
+ntp server 172.16.121.254
+mac address-table notification change
+mac address-table notification mac-move
+!
+end
