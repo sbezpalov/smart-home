@@ -1,18 +1,27 @@
-> **Синхронизация:** выровнено с Notion **[Network](https://www.notion.so/35e50b4d73048119b696d7dcd233311b)** (первичный источник). Исходные конфиги — `sources/FGT-61E.conf`, `CG.conf`, `CX.conf`, `ISW16803.conf`, `LTE.conf`.
+> **Синхронизация:** выровнено с Notion **[Network](https://www.notion.so/35e50b4d73048119b696d7dcd233311b)** (первичный источник). Исходные конфиги — `sources/*.conf`. Инвентаризация **172.16.x.0/24** — таблица + скрин [`assets/main-lan-172-inventory.png`](assets/main-lan-172-inventory.png).
 
 # Сетевая инфраструктура
+
+## Префиксы имён хостов (`cf-` / `ch-`)
+
+| Префикс | Расшифровка | Main (домашний L3) | Внутренние VLAN того же сайта |
+|---------|-------------|-------------------|--------------------------------|
+| **`cf-`** | **c**ity **f**lat (квартира в городе) | **`172.16.121.0/24`** | **`10.253.<номер VLAN>.0/24`** — второй октет **253** |
+| **`ch-`** | **c**ountry **h**ouse (загородный участок) | **`172.16.122.0/24`** | **`10.254.<номер VLAN>.0/24`** — как в этом документе (IoT **10**, Voice **20**, Mgmt **30**, …) |
+
+Подсеть **`172.16.120.0/24`** — отдельный **внешний** сайт (облако / резервный DNS **reserv**), в этой схеме **не** относится к префиксам **cf-**/**ch-**.
 
 ## Основное оборудование
 
 | Устройство | Модель | IP-адрес (L3 / управление) | Роль | Порты / uplink (по конфигам) |
 |------------|--------|---------------------------|------|--------------------------------|
-| Маршрутизатор Pri | Fortinet **FGT-61E** (hostname FGT-61E) | **172.16.122.1** (VLAN 1 / `internal`), GW для IoT/Voice/Mgmt/Guests/Video; **wan1** PPPoE «isp-optic»; **wan2** DHCP «isp-reserv» | Основной шлюз, DHCP, NAT, VPN, политики | Физ. порт **internal7** → стек коммутаторов (hard-switch `internal`); WAN на провайдеров |
+| Маршрутизатор Pri | Fortinet **FGT-61E** (в инвентаризации Main: **ch-router**) | **172.16.122.1** (VLAN 1 / `internal`), GW для IoT/Voice/Mgmt/Guests/Video; **wan1** PPPoE «isp-optic»; **wan2** DHCP «isp-reserv» | Основной шлюз, DHCP, NAT, VPN, политики | Физ. порт **internal7** → стек коммутаторов (hard-switch `internal`); WAN на провайдеров |
 | Маршрутизатор Sec | MikroTik **RB912R-2nD**, RouterOS **7.22.2** (`identity` **ch-router-lte**, serial D5940D4DAA23) | **10.10.12.1/24** на `bridge` (DHCP **10.10.12.10–250**, домен `public.bezpalov.com`); LTE **mts** — APN `internet.mts.ru`, IPv4, peer DNS выкл.; **WireGuard** `back-to-home-vpn`, listen **6205/udp** | Резервный WAN (**МТС LTE**), локальный DHCP/NAT при работе через LTE, Wi‑Fi IoT/Video, обратный VPN | **ether1** в `bridge` → **CX Gi0/12** (trunk VLAN **10, 50**, native **155**); **wlan-iot** SSID **RSW-Country-Base** (VLAN 10); **wlan-video** SSID **RSW-Video** (VLAN 50); SNMP **src-address 10.10.12.1**, community ACL **172.16.122.15/32**, **10.10.12.0/24** |
 | Коммутатор 1 | Cisco **3560CG-8PC-S** | **172.16.122.252** (SVI Vlan1), **10.254.30.252** (Vlan30 активен); остальные SVI в `shutdown` | L2/L3, DHCP relay → FGT | hostname **ch-switch-01**; uplink **Gi0/9** → CX Gi0/13; **Gi0/10** → ISW16803 |
 | Коммутатор 2 | Cisco **3560CX-12PC-S** | **172.16.122.253** (Vlan1), **10.254.30.253** (Vlan30) | L2/L3, первый hop к WAN VLAN и FGT | hostname **ch-switch-02**; **Gi0/1** VLAN 150 «Router WAN Pri»; **Gi0/2** VLAN 155 «Router WAN Sec»; **Gi0/3** trunk → FGT LAN |
 | Коммутатор 3 | Extreme **ISW16803** | **10.254.30.4** (Vlan30); Vlan1 **no ip address** | Доступ к камерам / кольцу, SNMP к Zabbix | hostname **ISW16803**; default route **10.254.30.1**; **Gi1/5–1/8** trunks; камеры VLAN 50 на **Gi1/1–1/3** |
 | Коммутатор 4 | Dahua **DH-CS4006-4GT-60** | Нет в приложенных `.conf` | PoE / видеокольцо (по топологии) | На **CG** **Gi0/10** description «Uplink 2 (4006)» |
-| Минисервер | AMD / **Proxmox VE 9.1.9** | Адрес хоста не задан в switch-конфиге; доступ по VLAN с trunk | Виртуализация | **CG Gi0/2** description «Hypervisor», trunk **1,10,20,30,50** |
+| Минисервер | AMD / **Proxmox VE 9.1.9** | **172.16.122.2** (**ch-raven**) в инвентаризации Main; в L2 — «Hypervisor» на **CG Gi0/2**, trunk **1,10,20,30,50** | Виртуализация | **CG Gi0/2** description «Hypervisor», trunk **1,10,20,30,50** |
 
 ## Физическое размещение (инвентаризация, не из `.conf`)
 
@@ -63,13 +72,57 @@
 
 *Детали Wiren Board, LoRaWAN (Modbus, MQTT):* Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)** и `07-wirenboard.md`.
 
+## Логические сайты `172.16.x.0/24` (инвентаризация Main)
+
+- **172.16.122.0/24** — локальный сайт **country house** (**`ch-`**), Main VLAN **1** на FortiGate; внутренние сети — **`10.254.<VLAN>.0/24`**.
+- **172.16.121.0/24** — внешний сайт **city flat** (**`cf-`**); его внутренние VLAN — **`10.253.<VLAN>.0/24`** (документируются отдельно на площадке квартиры).
+- **172.16.120.0/24** — внешний сайт **облако** (без префикса **cf-**/**ch-** в учёте); хост **reserv** для DNS tertiary.
+
+Сводная таблица по учёту (скриншот): [`assets/main-lan-172-inventory.png`](assets/main-lan-172-inventory.png).
+
+### `172.16.120.0/24` — внешний сайт (облако)
+
+| IP | Host | Описание |
+|----|------|-----------|
+| 172.16.120.2 | **reserv** | VM DC, NPS |
+
+### `172.16.121.0/24` — внешний сайт **city flat** (**`cf-`**)
+
+| IP | Host | Описание | Модель |
+|----|------|----------|--------|
+| 172.16.121.1 | **cf-router** | — | FortiGate **FGT-60E** |
+| 172.16.121.2 | **berry** | — | — |
+| 172.16.121.3 | **hypervisor** | Intel NUC | **NUC7i5BNK** |
+| 172.16.121.4 | **cf-synology** | Synology NAS | **DS723+** |
+| 172.16.121.5 | **cf-int-ap** | — | — |
+| 172.16.121.254 | **direct** | VM DC, NPS | — |
+
+### `172.16.122.0/24` — локальный Main **country house** (**`ch-`**)
+
+| IP | Host | Описание | Модель |
+|----|------|----------|--------|
+| 172.16.122.1 | **ch-router** | Шлюз участка | FortiGate **FGT-61E** (= **FGT-61E** в конфиге) |
+| 172.16.122.2 | **ch-raven** | Гипервизор **PVE** | — |
+| 172.16.122.4 | **ch-truenas** | VM TrueNAS; сервисы: Plex **:32400**, Prowlarr **:30050**, qBittorrent **:30024**, Radarr **:30025**, Sonarr **:30113** (хост `ch-truenas.home.bezpalov.com`) | — |
+| 172.16.122.5 | **ch-ext-ap** | Ruckus AP | **T350D** |
+| 172.16.122.6 | **ch-synology** | NAS (XPEnology / **ARC**) | **DS923+** |
+| 172.16.122.7 | **switch** | Коммутатор зоны **баня** | — |
+| 172.16.122.8 | **ch-int-ap-01** | Ruckus AP | **R550** |
+| 172.16.122.9 | **ch-int-ap-02** | Ruckus AP | **R550** |
+| 172.16.122.10 | **ch-int-ap-03** | Ruckus AP | **R350** |
+| 172.16.122.11 | **ch-int-ap-04** | Ruckus AP | **R350** |
+| 172.16.122.12 | **workplace** | VM WS | — |
+| 172.16.122.254 | **forward** | VM DC, NPS | — |
+
+**Заметки:** в инвентаризации **172.16.122.15** нет — при необходимости сверить с VIP **CH Zabbix Server** в FortiGate. Коммутаторы **Cisco** в этой таблице как **ch-switch-01/02** — см. раздел «Основное оборудование» и `CG.conf` / `CX.conf`.
+
 ## DNS серверы
 
 | Роль | IP-адрес | Примечания |
 |------|----------|------------|
-| Primary DNS | 172.16.122.254 | В `system dhcp server` на FortiGate для внутренних VLAN; совпадает с ISW16803 `ip name-server 0` |
-| Secondary DNS | 172.16.121.254 | Резерв |
-| Tertiary DNS | 172.16.120.2 | Третий резерв |
+| Primary DNS | 172.16.122.254 | **`forward`** — VM DC/NPS на **локальном** сайте `172.16.122.0/24`; в `system dhcp server` на FortiGate для внутренних VLAN; совпадает с ISW16803 `ip name-server 0` |
+| Secondary DNS | 172.16.121.254 | **`direct`** — VM DC/NPS на **внешнем** сайте `172.16.121.0/24` (другой умный дом) |
+| Tertiary DNS | 172.16.120.2 | **`reserv`** — VM DC/NPS на **внешнем** сайте `172.16.120.0/24` (облако) |
 
 ## Port mapping (DNAT, `config firewall vip`, внешний IP **176.112.106.71**)
 
