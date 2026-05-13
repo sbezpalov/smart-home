@@ -2,7 +2,7 @@
 
 Каркас помещений для освещения, климата, безопасности и медиа. **Имена зон** совпадают с полем **Description** точек доступа в Notion **WiFi** / `sources/Ruckus.conf` (кроме случаев, когда в Notion **Комнаты** для номера плана задано другое английское имя — тогда приоритет у **Комнаты**). Матрица «устройство → зона» — ниже. Первичный источник в Notion — **[Комнаты](https://www.notion.so/35e50b4d730481d98c42c88fecbe07e1)** (родитель — [Документация к Умному дому](https://www.notion.so/35e50b4d7304808a9c55ff5bfd567ded)).
 
-**Каналы NVR** — Notion **[Video and Security](https://www.notion.so/35e50b4d73048176aa7fc37e7e709459)** и `03-security.md`.
+**Каналы NVR** — Notion **[Video and Security](https://www.notion.so/35e50b4d73048176aa7fc37e7e709459)** и `03-security.md`. **Инвентаризация IoT/медиа** (Aqara, климат, колонки) — [`09-devices.md`](09-devices.md) и Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)**.
 
 ---
 
