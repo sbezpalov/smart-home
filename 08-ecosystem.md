@@ -1,6 +1,6 @@
 # Экосистема умного дома (сводка решений)
 
-Первичный источник: экспорт обсуждения (JSONL, июнь 2025), файл пользователя `deepseek_jsonl_20260513_90dcb4.txt`. Здесь зафиксированы **архитектурные договорённости** и уточнения, согласованные с конфигами репозитория (`sources/Ruckus.conf`, `07-wirenboard.md`, `01-network.md`). Учётные данные SSID и прочие секреты **не** дублируются в git.
+Первичные источники по инфраструктуре: Notion **[Документация к Умному дому](https://www.notion.so/35e50b4d7304808a9c55ff5bfd567ded)** (разделы Network, WiFi, Комнаты, Video). Ниже — архитектурные договорённости из экспорта обсуждения (JSONL) и конфигов репозитория (`sources/Ruckus.conf`, `07-wirenboard.md`, `01-network.md`). Учётные данные SSID и прочие секреты **не** дублируются в git.
 
 ---
 
@@ -12,7 +12,7 @@
 | **ch-int-ap-02** | R550 | Living Room L | `Ruckus.conf` |
 | **ch-int-ap-03** | R350 | Living Room F | `Ruckus.conf` |
 | **ch-int-ap-04** | R350 | Living Room C | `Ruckus.conf` |
-| **ch-ext-ap** | T350D | Bathhouse | `Ruckus.conf` |
+| **ch-ext-ap** | T350D | Bathhouse (outdoor) | `Ruckus.conf` |
 
 **Итог по числу AP:** 2×R550 + 2×R350 внутри дома, 1×T350D снаружи (баня/участок) — совпадает с планом из экспорта.
 
