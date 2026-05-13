@@ -1,4 +1,4 @@
-> **Синхронизация:** содержимое ниже по таблицам NVR и «Прочие устройства» выровнено с Notion **[Video and Security](https://www.notion.so/35e50b4d73048176aa7fc37e7e709459)** (первичный источник правок). Инвентаризация IP — также [`assets/hikvision-inventory.png`](assets/hikvision-inventory.png).
+> **Синхронизация:** выровнено с Notion **[Video and Security](https://www.notion.so/35e50b4d73048176aa7fc37e7e709459)** (первичный источник). Инвентаризация VLAN 50 — скрин [`assets/hikvision-vlan50-inventory.png`](assets/hikvision-vlan50-inventory.png) (дубликат актуального снимка; см. также `hikvision-inventory.png` при необходимости).
 
 Сеть видео: **VLAN 50** (см. `01-network.md` и Notion **Network**).
 
@@ -12,7 +12,7 @@
 
 ## Инвентаризация VLAN 50 (IP → hostname → модель)
 
-Таблица учёта по сети видео/охраны; скриншот: [`assets/hikvision-inventory.png`](assets/hikvision-inventory.png). Локации по каналам NVR — в таблице ниже (как в Notion).
+Таблица учёта по сети видео/охраны; скриншот: [`assets/hikvision-vlan50-inventory.png`](assets/hikvision-vlan50-inventory.png). Локации по каналам NVR — в таблице ниже (как в Notion).
 
 | IP | Hostname | Модель / назначение |
 |----|----------|---------------------|
@@ -24,7 +24,7 @@
 | 10.254.50.6 | — | **DS-2DE3A400BW-DE/W** (D5) |
 | 10.254.50.7 | — | **DS-2CD2023G2-IU** — в списке **D1–D9** на NVR нет; см. заметку в Notion. |
 | 10.254.50.8 | — | **D2121IR3V2** (D7, ONVIF) |
-| 10.254.50.9 | — | **DS-2CD2346G2P-ISU/SL** (D9); крыльцо / **Porch**; калитка и основные ворота. |
+| 10.254.50.9 | — | **DS-2CD2346G2P-ISU/SL** (D9); крыльцо (**Doorstep** в Notion **Комнаты**); калитка и основные ворота. |
 | 10.254.50.10 | — | **D2121IR3WV2** (D6, ONVIF) |
 | 10.254.50.18 | AX Pro | **DS-PWA96-M-WE(RU)** |
 | 10.254.50.19 | **CH-KH9510** | **DS-KH9510-WTE1(B)** |
@@ -35,23 +35,23 @@
 
 ## Регистрация на NVR (IP Channel)
 
-Снимок настроек **DS-7616NXI-K2** (как в Notion). Колонки **Модель** и **Локация** — из правок на странице **Video and Security**.
+Снимок настроек **DS-7616NXI-K2** (как в Notion). Колонка **Модель** — по инвентаризации VLAN 50; имена в колонке **Имя на NVR** — как в GUI NVR (**IPC-…**).
 
 | Канал | Имя на NVR | IP | Модель | Локация | Dev ch | Порт | Безопасность | Статус | Протокол |
 |-------|------------|-----|--------|---------|--------|------|--------------|--------|----------|
-| D1 | DS-2DE2C_01 | 10.254.50.4 | DS-2DE2C400MWG-E | Баня | 1 | 8000 | Strong | Online | HIKVISION |
-| D2 | IP-50-3-1 | 10.254.50.3 | DS-2SE3C404MWG-E/14 | Бытовка | 1 | 8000 | Strong | Online | HIKVISION |
-| D3 | IP-50-3-2 | 10.254.50.3 | DS-2SE3C404MWG-E/14 | Бытовка | 2 | 8000 | Strong | Online | HIKVISION |
-| D4 | IP-50-5 | 10.254.50.5 | DS-2DE2C400MWG-E | Бойлерная | 1 | 8000 | Strong | Online | HIKVISION |
-| D5 | DS-2DE3A | 10.254.50.6 | DS-2DE3A400BW-DE/W | Терраса | 1 | 8000 | Strong | Online | HIKVISION |
-| D6 | IPCamera 06 | 10.254.50.10 | D2121IR3WV2 | Теплица | 1 | 80 | Risky | Online | ONVIF |
-| D7 | IPCamera 07 | 10.254.50.8 | D2121IR3V2 | Бытовка | 1 | 80 | Risky | Online | ONVIF |
+| D1 | IPC-50-4 | 10.254.50.4 | DS-2DE2C400MWG-E | Баня | 1 | 8000 | Strong | Online | HIKVISION |
+| D2 | IPC-50-3-1 | 10.254.50.3 | DS-2SE3C404MWG-E/14 | Бытовка | 1 | 8000 | Strong | Online | HIKVISION |
+| D3 | IPC-50-3-2 | 10.254.50.3 | DS-2SE3C404MWG-E/14 | Бытовка | 2 | 8000 | Strong | Online | HIKVISION |
+| D4 | IPC-50-5 | 10.254.50.5 | DS-2DE2C400MWG-E | Бойлерная | 1 | 8000 | Strong | Online | HIKVISION |
+| D5 | IPC-50-6 | 10.254.50.6 | DS-2DE3A400BW-DE/W | Терраса | 1 | 8000 | Strong | Online | HIKVISION |
+| D6 | IPC-50-10 | 10.254.50.10 | D2121IR3WV2 | Теплица | 1 | 80 | Risky | Online | ONVIF |
+| D7 | IPC-50-8 | 10.254.50.8 | D2121IR3V2 | Бытовка | 1 | 80 | Risky | Online | ONVIF |
 | D8 | DS-2CD20 | 10.0.50.5 | DS-2CD2023G0E-I | HQ (Офис) | 1 | 8000 | Strong | Online | HIKVISION |
-| D9 | IP-50-9 | 10.254.50.9 | DS-2CD2346G2P-ISU/SL | Крыльцо | 1 | 8000 | Strong | Offline | HIKVISION |
+| D9 | IPC-50-9 | 10.254.50.9 | DS-2CD2346G2P-ISU/SL | Крыльцо | 1 | 8000 | Strong | Offline | HIKVISION |
 
 ### Размещение канала D9 (`10.254.50.9`)
 
-Камера **DS-2CD2346G2P-ISU/SL** на **крыльце** (**Porch**, план **10**): обзор **калитки** и **основных ворот**; дополняет **DS-KV6113** (`10.254.50.20`). На NVR — **Offline** (проверить питание, PoE, линию).
+Камера **DS-2CD2346G2P-ISU/SL** на **крыльце** (план **10**, зона **Doorstep** в Notion **Комнаты**): обзор **калитки** и **основных ворот**; дополняет **DS-KV6113** (`10.254.50.20`). На NVR — **Offline** (проверить питание, PoE, линию).
 
 > **Стратегия архива:** долговременное хранение — **Hik-Cloud (ADR-002)**. Локальный NVR — live и краткосрочный буфер. Каналы **D6 / D7** — accepted exception (**ADR-003**), облачная запись по ним не используется. Покрытие **D8** (`10.0.50.5`, подсеть `10.0.50.0/24`) облаком — к подтверждению.
 
@@ -76,4 +76,4 @@
 
 Панель **AX Pro** (`10.254.50.18`) физически в **Boiler Room**, **сценарии охраны** участвуют в управлении **откатными воротами** на зоне **Cabin** (бытовка): параллельно с пультом **Nice**, реле **Aqara**, **Home Assistant** (Matter ↔ Aqara) и **Apple Home** — [`08-ecosystem.md`](08-ecosystem.md).
 
-**Заметка по инвентаризации:** адрес **10.254.50.7** (**DS-2CD2023G2-IU**) зафиксирован в таблице VLAN 50 выше; на экране **IP Channel** среди D1–D9 не отображался — обновить при появлении на NVR.
+**Заметка по инвентаризации:** адрес **10.254.50.7** (**DS-2CD2023G2-IU**) зафиксирован в полной таблице VLAN 50 выше и на скрине **`assets/hikvision-vlan50-inventory.png`**; на экране **IP Channel** среди D1–D9 не отображался — обновить при появлении на NVR.
