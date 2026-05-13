@@ -21,7 +21,7 @@
 Не следует из `.conf`; согласовано с эксплуатацией:
 
 - **Boiler Room (бойлерная = серверная):** коммутационный шкаф; **FortiGate**; **Cisco** ch-switch-01 и ch-switch-02; **PVE** (гипервизор); **NVR**; панель **AX Pro** (охрана).
-- **Cabin (бытовка):** **Extreme ISW16803** (коммутатор 3); **MikroTik** LTE (**ch-router-lte**).
+- **Cabin (бытовка):** **Extreme ISW16803** (коммутатор 3); **MikroTik** LTE (**ch-router-lte**); откатные ворота (Nice + Aqara, также AX PRO / HA — см. `08-ecosystem.md`).
 - **Bathhouse, 1-й этаж:** коммутатор **Dahua DH-CS4006-4GT-60** (коммутатор 4).
 
 Подробнее по зонам: Notion **Комнаты** и `05-rooms.md`.

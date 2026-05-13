@@ -26,4 +26,4 @@
 Используя filesystem MCP, прочитай содержимое файлов:
 - W:\private\smart-home\sources\Ruckus.conf
 
-Страница Notion **WiFi** заполняется по этому файлу (актуальное содержимое — в Notion).
+Страница Notion **WiFi** заполняется по этому файлу (актуальное содержимое — в Notion). Имена AP и модели в кластере — также в [`08-ecosystem.md`](08-ecosystem.md).
