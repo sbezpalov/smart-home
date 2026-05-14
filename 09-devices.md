@@ -1,4 +1,4 @@
-> **Синхронизация:** выровнено с Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)** (первичный источник; импорт **2026-05-14**). Детали Wiren Board, LoRaWAN, Zigbee-контуров — [`07-wirenboard.md`](07-wirenboard.md).
+> **Синхронизация:** выровнено с Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)** (первичный источник; импорт **2026-05-14**, котёл Kiturami **2026-05-14**). Детали Wiren Board, LoRaWAN, Zigbee-контуров — [`07-wirenboard.md`](07-wirenboard.md).
 
 # Устройства (инвентаризация)
 
@@ -15,6 +15,7 @@
 | Camera G2H | G2H | Баня | Bathhouse |
 | Aqara Hub M3 Sec | M3 | Кухня | Kitchen |
 | Air-Conditioner | AR18BSFCMWKNER | Кухня | Kitchen |
+| Котёл Kiturami | World Alpha C | Бойлерная | Boiler Room |
 | YandexStationMini | — | Спальня C | Living Room C |
 | Yandex-Lite-gen2 | — | Спальня L | Living Room L |
 | TV 4K | MN893LL/A | Гостиная | Dining Room |
@@ -42,10 +43,19 @@
 | Haier 50 Smart TV S2 Pro | *(уточнить P/N)* | Dining Room | *(уточнить — см. TODO)* | *(уточнить)* | Haier | Display; вход HDMI от Apple TV 4K |
 | YandexStationMini | — | Living Room C | *(уточнить)* | *(уточнить)* | Яндекс (Алиса) | Voice assistant |
 | Yandex-Lite-gen2 | — | Living Room L | *(уточнить)* | *(уточнить)* | Яндекс (Алиса) | Voice assistant |
+| Котёл Kiturami | World Alpha C | Boiler Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Tuya (**NCTR-100WR**, Wi‑Fi) | Газовый котёл; штатное управление — приложение **Tuya** |
 
 ### Медиа-кластер (Dining Room)
 
 > Apple TV 4K является источником видео для **Haier 50 Smart TV S2 Pro** (HDMI) и источником звука для пары **HomePod mini** через AirPlay 2 (стерео-пара, настроена как default audio out для Apple TV). Apple TV одновременно выполняет роль **Home Hub** для Apple Home — это центральная точка отказа в медиа-цепочке и в smart-home-управлении домом.
+
+### Котёл и отопление (Boiler Room)
+
+| Узел | Модель / модуль | Сеть / контур | Примечание |
+|------|-----------------|---------------|------------|
+| Газовый котёл | **Kiturami World Alpha C** | — | Установка в **Boiler Room** |
+| Управляющий модуль | **NCTR-100WR** | **Wi‑Fi**, экосистема **Tuya** | Основной канал управления/мониторинга котла через приложение Tuya |
+| Тёплый пол + WB-Zigbee | см. [`07-wirenboard.md`](07-wirenboard.md) | Tuya (Zigbee координатор на WB) | Связка с HA — через Tuya-интеграции и/или Zigbee на **WBE2R-R-ZIGBEE** *(уточнить приоритет и фактическую схему)* |
 
 ---
 

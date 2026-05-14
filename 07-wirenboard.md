@@ -1,4 +1,4 @@
-> **Синхронизация:** блоки «Система», «Модули», vendor-segregated Zigbee и LoRaWAN выровнены с Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)** (импорт **2026-05-14**).
+> **Синхронизация:** блоки «Система», «Модули», vendor-segregated Zigbee и LoRaWAN выровнены с Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)** (импорт **2026-05-14**, котёл Kiturami **2026-05-14**).
 
 # Wiren Board — контроллер IoT
 
@@ -47,7 +47,7 @@
 | Aqara M3 Sec | Aqara | Kitchen | вторая зона + резервирование |
 | Aqara M1S | Aqara | Bathhouse | банный сегмент (legacy) |
 | Camera G2H | Aqara | Bathhouse | банный сегмент (камера-как-хаб) |
-| Wiren Board `WBE2R-R-ZIGBEE` | Tuya | Boiler Room | пульт Tuya сейчас; **планируется** котёл Kiturami + тёплый пол *(уточнить статус)* |
+| Wiren Board `WBE2R-R-ZIGBEE` | Tuya | Boiler Room | пульт Tuya; котёл **Kiturami World Alpha C** (модуль **NCTR-100WR**, Wi‑Fi, **Tuya**) — основное управление через приложение Tuya; тёплый пол и сценарии на Zigbee WB — *(уточнить связку с HA)* |
 
 Стек ПО на WB-Zigbee: *(уточнить — `wb-zigbee2mqtt` / стандартный `zigbee2mqtt` / другое)*. Канал и Pan ID на каждом координаторе — отдельная таблица (TODO в [`10-apple-iot-fabric.md`](10-apple-iot-fabric.md)).
 

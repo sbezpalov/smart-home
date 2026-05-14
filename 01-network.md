@@ -25,7 +25,7 @@
 
 ## Физическое размещение (инвентаризация, не из `.conf`)
 
-- **Boiler Room (бойлерная = серверная):** коммутационный шкаф; **FortiGate**; **Cisco** **ch-switch-01** и **ch-switch-02**; **PVE** (гипервизор); **NVR**; панель **AX Pro** (охрана).
+- **Boiler Room (бойлерная = серверная):** коммутационный шкаф; **FortiGate**; **Cisco** **ch-switch-01** и **ch-switch-02**; **PVE** (гипервизор); **NVR**; панель **AX Pro** (охрана); газовый котёл **Kiturami World Alpha C** (модуль **NCTR-100WR**, Wi‑Fi / **Tuya** — см. [`09-devices.md`](09-devices.md)).
 - **Cabin (бытовка):** **Extreme ISW16803** (коммутатор 3); **MikroTik** **ch-router-lte** (LTE / резервный WAN).
 - **Bathhouse, 1-й этаж:** коммутатор **Dahua DH-CS4006-4GT-60** (коммутатор 4).
 
