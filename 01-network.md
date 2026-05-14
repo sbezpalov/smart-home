@@ -1,4 +1,4 @@
-> **Синхронизация:** выровнено с Notion **[Network](https://www.notion.so/35e50b4d73048119b696d7dcd233311b)** (первичный источник). Исходные конфиги — `sources/*.conf`. Инвентаризация **172.16.x.0/24** — таблица + скрин [`assets/main-lan-172-inventory.png`](assets/main-lan-172-inventory.png).
+> **Синхронизация:** выровнено с Notion **[Network](https://www.notion.so/35e50b4d73048119b696d7dcd233311b)** (первичный источник; импорт **2026-05-14**). Исходные конфиги — `sources/*.conf`. Инвентаризация **172.16.x.0/24** — таблица + скрин [`assets/main-lan-172-inventory.png`](assets/main-lan-172-inventory.png).
 
 # Сетевая инфраструктура
 
@@ -94,7 +94,7 @@
 | 172.16.121.2 | **berry** | — | — |
 | 172.16.121.3 | **hypervisor** | Intel NUC | **NUC7i5BNK** |
 | 172.16.121.4 | **cf-synology** | Synology NAS | **DS723+** |
-| 172.16.121.5 | **cf-int-ap** | — | — |
+| 172.16.121.5 | **cf-int-ap** | Ruckus AP | **R600** |
 | 172.16.121.254 | **direct** | VM DC, NPS | — |
 
 ### `172.16.122.0/24` — локальный Main **country house** (**`ch-`**)
@@ -147,3 +147,7 @@
 - **ch-switch-02 (3560CX):** Gi0/1 WAN Pri; Gi0/2 WAN Sec; Gi0/3 Router (LAN) trunk к FGT; Gi0/12 Mikrotik LTE/AP; Gi0/13 uplink к 3560CG; порты доступа IoT/Video/телефонии — см. description в `sources/CX.conf`.
 
 *Источники: **`FGT-61E.conf`**, **`CG.conf`**, **`CX.conf`**, **`ISW16803.conf`**, **`LTE.conf`** (снимки конфигурации).*
+
+## mDNS / Bonjour (VLAN 1 ↔ VLAN 10)
+
+Двухслойный bridge для Apple Home / AirPlay / HomeKit между **Main** и **IoT** — см. **ADR-003** в Notion **[Архитектурные решения (ADR)](https://www.notion.so/35e50b4d73048171a965ccf05669e0b2)** и дочернюю страницу **[🔊 mDNS / Bonjour между VLAN 1 и VLAN 10](https://www.notion.so/35f50b4d730481a4bfdde09d6ac5553a)** (под **Network**). В git: таблицы FortiGate / Ruckus — [`10-apple-iot-fabric.md`](10-apple-iot-fabric.md).

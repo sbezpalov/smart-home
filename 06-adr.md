@@ -52,11 +52,26 @@
 
 ---
 
-### ADR-003 / 2026-05-13 — Apple-стек в VLAN 10 + двухслойный mDNS-bridge
+### ADR-003 / 2026-05-13 — Apple-стек в VLAN 10 (IoT) + двухслойный mDNS-bridge
 
-**Суть:** Apple TV / HomePod / Haier TV в **VLAN 10 (IoT)** для общего Thread mesh с Aqara M3; между **VLAN 1 (Main)** и **VLAN 10** — двухслойная propagation mDNS / Bonjour (FortiGate Multicast Policy + Ruckus Bonjour Gateway).
+**Контекст.** Aqara M3 (Pri, Sec) физически живут в **VLAN 10 (IoT, `10.254.10.0/24`)** и работают как **Thread Border Router + Matter Bridge** для всей Aqara-экосистемы. HomePod mini × 2 и Apple TV 4K тоже выступают как Thread BR и должны входить в **тот же Thread fabric**, что и M3 — иначе Apple Home ↔ Aqara через Matter работает фрагментарно (mesh не объединяется через L3-границу VLAN). При этом iPhone'ы семьи и общие ресурсы (NAS, принтеры) сидят в **VLAN 1 (Main, `172.16.122.0/24`)** — между ними и Apple-стеком требуется явная propagation mDNS / Bonjour.
 
-**Полный текст ADR, таблицы правил и ссылки на подстраницу Network:** [`10-apple-iot-fabric.md`](10-apple-iot-fabric.md) (блок 1–2). Первичный источник — Notion **Архитектурные решения (ADR)** и дочерняя страница **Network** (mDNS / Bonjour).
+**Решение.** Все Apple-устройства (HomePod mini × 2, Apple TV 4K, Haier Smart TV) подключены к **VLAN 10 (IoT)** — по Wi-Fi через SSID **`RSW-Country-Base`**. Между VLAN 1 ↔ VLAN 10 настроен **двухслойный bridge mDNS / Bonjour**:
+
+- **Слой 1 (L3) — FortiGate Multicast Policy:** две bidirectional rules (`Apple Bonjour (Internal)` и `Apple Bonjour (IoT)`) для UDP 5353 / 224.0.0.251.
+- **Слой 2 (L2 over Wi-Fi) — Ruckus Bonjour Gateway:** 27 правил из лимита 32, преимущественно направление `1 → 10` для discovery «iPhone в Main → HomePod / Apple TV в IoT», плюс три обратные правила `10 → 1` (AirPlay / AirTunes / Apple TV) для «iPhone в Main как source AirPlay → HomePod как target».
+
+Подробности — отдельная подстраница **«🔊 mDNS / Bonjour между VLAN 1 и VLAN 10»** на странице Network.
+
+**Последствия.** Apple Home + Aqara образуют единый Thread mesh (функционально работает: общий fabric виден в Apple Home / Aqara Home). AirPlay / HomeKit / AirDrop / Continuity между VLAN 1 и VLAN 10 проходят прозрачно. Архитектура зависит от **двух механизмов одновременно** — FortiGate L3 (mDNS-traffic ~100 MB / сторона по счётчикам) и Ruckus L2 (для надёжности multicast over Wi-Fi). Снятие любого из слоёв молча деградирует Apple-discovery.
+
+**Триггер пересмотра.** Загрузка Ruckus Bonjour Gateway достигла **30 / 32** правил (сейчас 27 / 32, headroom 5) — повод сделать ревизию сервисов перед добавлением 33-го. Также — миграция iPhone-парка в другой VLAN, появление третьего L3-сегмента в Apple-fabric, или замена контроллера Ruckus.
+
+Связанные страницы Notion: [Network](https://www.notion.so/35e50b4d73048119b696d7dcd233311b), [Video and Security](https://www.notion.so/35e50b4d73048176aa7fc37e7e709459).
+
+*Таблицы правил FortiGate и Ruckus (полный перечень сервисов Bonjour):* [`10-apple-iot-fabric.md`](10-apple-iot-fabric.md), Notion [mDNS / Bonjour](https://www.notion.so/35f50b4d730481a4bfdde09d6ac5553a).
+
+**Заметка (Voice / OpenAI).** В Notion **Voice** ключ OpenAI описан как защищаемый через «**ADR-004**»; в журнале ADR на Notion на дату импорта **2026-05-14** отдельной карточки **ADR-004** ещё нет — при консолидации либо добавить ADR, либо заменить ссылку в Voice на **ADR-002** (бэкап) + явное упоминание бэкапа 3CX.
 
 ---
 
