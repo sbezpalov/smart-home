@@ -52,6 +52,14 @@
 
 ---
 
+### ADR-003 / 2026-05-13 — Apple-стек в VLAN 10 + двухслойный mDNS-bridge
+
+**Суть:** Apple TV / HomePod / Haier TV в **VLAN 10 (IoT)** для общего Thread mesh с Aqara M3; между **VLAN 1 (Main)** и **VLAN 10** — двухслойная propagation mDNS / Bonjour (FortiGate Multicast Policy + Ruckus Bonjour Gateway).
+
+**Полный текст ADR, таблицы правил и ссылки на подстраницу Network:** [`10-apple-iot-fabric.md`](10-apple-iot-fabric.md) (блок 1–2). Первичный источник — Notion **Архитектурные решения (ADR)** и дочерняя страница **Network** (mDNS / Bonjour).
+
+---
+
 ## Согласование с Video and Security
 
-В callout на странице **Video and Security** используются обозначения **ADR-002** (архив Hik-Cloud) и **ADR-003** (исключение для каналов D6/D7). В **этом** журнале **ADR-002** выше посвящён **бэкапу конфигов** сети — нумерация на стороне Video относится к **отдельным** решениям по видеоархиву и ONVIF; при консолидации стоит добавить в Notion ADR явные карточки под эти темы и выровнять номера.
+В callout на странице **Video and Security** могут фигурировать пометки **ADR-002** / **ADR-003** в смысле **архива Hik-Cloud** и **исключения D6/D7** — это **не** те же номера, что **ADR-002** (бэкап конфигов) и **ADR-003** (Apple / mDNS) в журнале выше. Имеет смысл в Notion **Video** переформулировать callout **без ссылок на номера ADR** (операционные факты только) либо завести отдельные ADR под видеоархив. До правки в Notion ориентир по видео: [`03-security.md`](03-security.md).
