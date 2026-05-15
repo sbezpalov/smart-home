@@ -1,4 +1,4 @@
-> **Синхронизация:** выровнено с Notion **[Video and Security](https://www.notion.so/35e50b4d73048176aa7fc37e7e709459)** (первичный источник; импорт **2026-05-14**). Инвентаризация VLAN 50 — скрин [`assets/hikvision-vlan50-inventory.png`](assets/hikvision-vlan50-inventory.png) (дубликат актуального снимка; см. также `hikvision-inventory.png` при необходимости).
+> **Синхронизация:** Notion **[Video and Security](https://www.notion.so/35e50b4d73048176aa7fc37e7e709459)** — первичный источник (импорт **2026-05-15**). Этот файл — зеркало; при расхождении правьте Notion, затем подтяните сюда. VLAN 50 — [`assets/hikvision-vlan50-inventory.png`](assets/hikvision-vlan50-inventory.png).
 
 Сеть видео: **VLAN 50** (см. `01-network.md` и Notion **Network**).
 
@@ -74,6 +74,6 @@
 
 ## AX Pro и ворота (Cabin / бытовка)
 
-Панель **AX Pro** (`10.254.50.18`) физически в **Boiler Room**, но **сценарии охраны** участвуют в управлении **откатными воротами** на зоне **Cabin** (бытовка): параллельно с пультом **Nice**, реле **Aqara** / **Hikvision** (см. [`09-devices.md`](09-devices.md)), **Home Assistant** (Matter ↔ Aqara) и **Apple Home**. Полная схема каналов — [`08-ecosystem.md`](08-ecosystem.md).
+Панель **AX Pro** (`10.254.50.18`) физически в **Boiler Room**, но **сценарии охраны** участвуют в управлении **откатными воротами** на зоне **Cabin** (бытовка): параллельно с пультом **Nice**, реле **Aqara**, **Home Assistant** (Matter ↔ Aqara) и **Apple Home** — как в Notion. Дополнительно реле **Hikvision** — [`09-devices.md`](09-devices.md); схема — [`08-ecosystem.md`](08-ecosystem.md).
 
 **Заметка по инвентаризации:** адрес **10.254.50.7** (**DS-2CD2023G2-IU**) зафиксирован в полной таблице VLAN 50 выше, в репозитории **`03-security.md`** и на скрине **`assets/hikvision-vlan50-inventory.png`**; на экране **IP Channel** среди D1–D9 не отображался — обновить при появлении на NVR.

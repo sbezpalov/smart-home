@@ -1,4 +1,4 @@
-> **Синхронизация:** выровнено с Notion **[Network](https://www.notion.so/35e50b4d73048119b696d7dcd233311b)** (первичный источник; импорт **2026-05-14**). Исходные конфиги — `sources/*.conf`. Инвентаризация **172.16.x.0/24** — таблица + скрин [`assets/main-lan-172-inventory.png`](assets/main-lan-172-inventory.png).
+> **Синхронизация:** Notion **[Network](https://www.notion.so/35e50b4d73048119b696d7dcd233311b)** — первичный источник (импорт **2026-05-15**). Этот файл — зеркало; при расхождении правьте Notion, затем подтяните сюда. Конфиги — `sources/*.conf`; **172.16.x.0/24** — [`assets/main-lan-172-inventory.png`](assets/main-lan-172-inventory.png).
 
 # Сетевая инфраструктура
 

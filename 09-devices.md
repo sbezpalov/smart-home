@@ -1,4 +1,4 @@
-> **Синхронизация:** выровнено с Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)** (первичный источник; баня Aqara **2026-05-15**). Детали Wiren Board, LoRaWAN, Zigbee-контуров — [`07-wirenboard.md`](07-wirenboard.md).
+> **Синхронизация:** Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)** — первичный источник (импорт **2026-05-15**). Этот файл — зеркало; при расхождении правьте Notion, затем подтяните сюда. Wiren Board / LoRaWAN — [`07-wirenboard.md`](07-wirenboard.md).
 
 # Устройства (инвентаризация)
 
@@ -32,18 +32,18 @@
 
 | Имя | Модель | Зона (EN) | VLAN | IP | Контур | Роль |
 |-----|--------|-----------|------|-----|--------|------|
-| Aqara Hub M3 Pri | M3 | Boiler Room | 10 (IoT) | *(уточнить)* | Aqara | Zigbee coordinator + Thread BR + Matter Bridge |
-| Aqara Hub M3 Sec | M3 | Kitchen | 10 (IoT) | *(уточнить)* | Aqara | Zigbee coordinator + Thread BR + Matter Bridge |
-| Aqara Hub M1S | M1S | Bathhouse | 10 (IoT) | *(уточнить)* | Aqara | **Zigbee coordinator бани** (`54EF44322EBA`) |
-| Camera G2H | G2H | Bathhouse | 10 (IoT) | *(уточнить)* | Aqara | Камера; **самостоятельный** hub (`lumi1.54ef44350ea7`) |
-| Air-Conditioner | AR18BSFCMWKNER | Kitchen | 10 (IoT) | *(уточнить)* | Samsung (SmartThings RU) | Кондиционер, ~18000 BTU, WindFree |
+| Aqara Hub M3 Pri | M3 | Boiler Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Aqara | Zigbee coordinator + Thread BR + Matter Bridge |
+| Aqara Hub M3 Sec | M3 | Kitchen | 10 (IoT) | *(уточнить, DHCP-reserve)* | Aqara | Zigbee coordinator + Thread BR + Matter Bridge |
+| Aqara Hub M1S | M1S | Bathhouse | 10 (IoT) | *(уточнить, DHCP-reserve)* | Aqara | **Zigbee coordinator бани** (`54EF44322EBA`) |
+| Camera G2H | G2H | Bathhouse | 10 (IoT) | *(уточнить, DHCP-reserve)* | Aqara | Камера; **самостоятельный** hub (`lumi1.54ef44350ea7`) |
+| Air-Conditioner | AR18BSFCMWKNER | Kitchen | 10 (IoT) | *(уточнить, DHCP-reserve)* | Samsung (SmartThings RU) | Кондиционер, ~18000 BTU, WindFree |
 | Apple TV 4K (3 gen) | MN893LL/A | Dining Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Apple | Streamer + **Home Hub** · AirPlay source для HomePod |
 | HomePod mini #1 | MJ2D3LL/A | Dining Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Apple | **Stereo pair L** · Thread BR; audio out Apple TV |
 | HomePod mini #2 | MY5G2ZP/A | Dining Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Apple | **Stereo pair R** · Thread BR; audio out Apple TV |
-| Haier 50 Smart TV S2 Pro | *(уточнить P/N)* | Dining Room | *(уточнить — см. TODO)* | *(уточнить)* | Haier | Display; вход HDMI от Apple TV 4K |
-| YandexStationMini | — | Living Room C | *(уточнить)* | *(уточнить)* | Яндекс (Алиса) | Voice assistant |
-| Yandex-Lite-gen2 | — | Living Room L | *(уточнить)* | *(уточнить)* | Яндекс (Алиса) | Voice assistant |
-| Котёл Kiturami | World Alpha C | Boiler Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Tuya (**NCTR-100WR**, Wi‑Fi) | Газовый котёл; штатное управление — приложение **Tuya** |
+| Haier 50 Smart TV S2 Pro | *(уточнить P/N)* | Dining Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Haier | Display; вход HDMI от Apple TV 4K |
+| YandexStationMini | — | Living Room C | 10 (IoT) | *(уточнить, DHCP-reserve)* | Яндекс (Алиса) | Voice assistant |
+| Yandex-Lite-gen2 | — | Living Room L | 10 (IoT) | *(уточнить, DHCP-reserve)* | Яндекс (Алиса) | Voice assistant |
+| Котёл Kiturami | World Alpha C | Boiler Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Tuya (модуль **NCTR-100WR**, Wi‑Fi) | Газовый котёл |
 
 ### Медиа-кластер (Dining Room)
 
