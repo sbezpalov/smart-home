@@ -1,4 +1,4 @@
-> **Синхронизация:** выровнено с Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)** (первичный источник; импорт **2026-05-14**, котёл Kiturami **2026-05-14**). Детали Wiren Board, LoRaWAN, Zigbee-контуров — [`07-wirenboard.md`](07-wirenboard.md).
+> **Синхронизация:** выровнено с Notion **[Устройства](https://www.notion.so/35e50b4d730481ccbf81cdff3889dcad)** (первичный источник; баня Aqara **2026-05-15**). Детали Wiren Board, LoRaWAN, Zigbee-контуров — [`07-wirenboard.md`](07-wirenboard.md).
 
 # Устройства (инвентаризация)
 
@@ -34,8 +34,8 @@
 |-----|--------|-----------|------|-----|--------|------|
 | Aqara Hub M3 Pri | M3 | Boiler Room | 10 (IoT) | *(уточнить)* | Aqara | Zigbee coordinator + Thread BR + Matter Bridge |
 | Aqara Hub M3 Sec | M3 | Kitchen | 10 (IoT) | *(уточнить)* | Aqara | Zigbee coordinator + Thread BR + Matter Bridge |
-| Aqara Hub M1S | M1S | Bathhouse | 10 (IoT) | *(уточнить)* | Aqara | Zigbee coordinator (legacy) |
-| Camera G2H | G2H | Bathhouse | 10 (IoT) | *(уточнить)* | Aqara | Zigbee hub + камера |
+| Aqara Hub M1S | M1S | Bathhouse | 10 (IoT) | *(уточнить)* | Aqara | **Zigbee coordinator бани** (`54EF44322EBA`) |
+| Camera G2H | G2H | Bathhouse | 10 (IoT) | *(уточнить)* | Aqara | Камера; **самостоятельный** hub (`lumi1.54ef44350ea7`) |
 | Air-Conditioner | AR18BSFCMWKNER | Kitchen | 10 (IoT) | *(уточнить)* | Samsung (SmartThings RU) | Кондиционер, ~18000 BTU, WindFree |
 | Apple TV 4K (3 gen) | MN893LL/A | Dining Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Apple | Streamer + **Home Hub** · AirPlay source для HomePod |
 | HomePod mini #1 | MJ2D3LL/A | Dining Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Apple | **Stereo pair L** · Thread BR; audio out Apple TV |
@@ -59,6 +59,39 @@
 
 ---
 
+## Баня (Bathhouse) — контур Aqara
+
+Зона участка — **Bathhouse** (RU: баня); в **Aqara Home** комната может называться *Bathroom*. Сеть: VLAN **10 (IoT)**, покрытие Wi‑Fi — **ch-ext-ap** (outdoor).
+
+**Распределение хабов:** все перечисленные ниже устройства Aqara в бане (1F и 2F) привязаны к координатору **Hub M1S** (`54EF44322EBA`). Исключение — **Camera G2H** (`lumi1.54ef44350ea7`): самостоятельный хаб (камера + свой Zigbee-контур), периферию бани **не** обслуживает.
+
+**Координаторы (хабы):**
+
+| Имя (UI) | Модель | Device ID | Этаж | Роль |
+|----------|--------|-----------|------|------|
+| Hub M1S | Aqara Hub **M1S** | `54EF44322EBA` | 1F | **Основной Zigbee-координатор бани**; встроенная **лампа (ночник)** |
+| Camera G2H | Aqara Camera Hub **G2H** | `lumi1.54ef44350ea7` | 1F | Камера; **отдельный** hub (не координатор для остальной периферии) |
+
+### Bathhouse 1F — периферия Zigbee (координатор **M1S**)
+
+| Имя (UI) | Модель | Device ID | Назначение / привязки |
+|----------|--------|-----------|------------------------|
+| Dual control module | Aqara **Dual control module** | `158D008B85FCC5` | **Switch 1** — фонарь на улице; **Switch 2** — освещение в предбаннике |
+| Motion Sensor | Aqara **Motion Sensor** | `158D00075FA343` | Движение |
+| Remote Switch | Aqara **Wireless Remote Switch H1** (Double Rocker) | `54EF441000EB56DC` | Управляет реле **`158D008B85FCC5`** |
+| Smoke Detector | Aqara **JY-GZ-03AQ** | `54EF441000809CAE` | Пожарный датчик дыма |
+| Temperature and Humidity Sensor | Aqara **Temperature and Humidity Sensor** | `158D0008DFC108` | Климат (температура / влажность) |
+
+### Bathhouse 2F (координатор **M1S**)
+
+| Имя (UI) | Модель | Device ID | Назначение |
+|----------|--------|-----------|------------|
+| Smoke Detector | Aqara **JY-GZ-03AQ** | `54EF44100080A1A1` | Пожарный датчик дыма |
+
+Сводка по освещению и безопасности бани — также [`05-rooms.md`](05-rooms.md) (матрица IoT по зонам).
+
+---
+
 ## Ворота (Cabin)
 
 | Имя | Модель | Зона (EN) | VLAN | Контур | Роль |
@@ -76,7 +109,7 @@
 
 | Имя | Модель / источник | Зона | Контур | Назначение |
 |-----|-------------------|------|--------|------------|
-| Датчики дыма | JY-GZ-03AQ | Все жилые комнаты + Bathhouse на каждом этаже | Aqara | Пожарная сигнализация |
+| Датчики дыма | JY-GZ-03AQ | Все жилые комнаты + **Bathhouse** (1F: `54EF441000809CAE`, 2F: `54EF44100080A1A1`) | Aqara | Пожарная сигнализация |
 | Датчик газа | JT-BZ-03 AQ/A | Boiler Room | Aqara | Утечка газа |
 | Hikvision AX Pro | DS-PWA96-M-WE(RU) | Boiler Room | 50 (Video) | Охранная панель, сценарии ворот |
 

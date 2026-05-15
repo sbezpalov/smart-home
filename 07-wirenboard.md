@@ -45,8 +45,8 @@
 |-------------|--------|---------------|------------|
 | Aqara M3 Pri | Aqara | Boiler Room | основные сценарии Aqara |
 | Aqara M3 Sec | Aqara | Kitchen | вторая зона + резервирование |
-| Aqara M1S | Aqara | Bathhouse | банный сегмент (legacy) |
-| Camera G2H | Aqara | Bathhouse | банный сегмент (камера-как-хаб) |
+| Aqara M1S | Aqara | Bathhouse | **координатор** всей Aqara-периферии бани (`54EF44322EBA`) |
+| Camera G2H | Aqara | Bathhouse | камера; **самостоятельный** hub (`lumi1.54ef44350ea7`), не координатор для остальных устройств |
 | Wiren Board `WBE2R-R-ZIGBEE` | Tuya | Boiler Room | пульт Tuya; котёл **Kiturami World Alpha C** (модуль **NCTR-100WR**, Wi‑Fi, **Tuya**) — основное управление через приложение Tuya; тёплый пол и сценарии на Zigbee WB — *(уточнить связку с HA)* |
 
 Стек ПО на WB-Zigbee: *(уточнить — `wb-zigbee2mqtt` / стандартный `zigbee2mqtt` / другое)*. Канал и Pan ID на каждом координаторе — отдельная таблица (TODO в [`10-apple-iot-fabric.md`](10-apple-iot-fabric.md)).
