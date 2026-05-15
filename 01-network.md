@@ -2,30 +2,30 @@
 
 # Сетевая инфраструктура
 
-## Префиксы имён хостов (`cf-` / `ch-`)
+## Префиксы хостов (`cf-` / `ch-`)
 
-| Префикс | Расшифровка | Main (домашний L3) | Внутренние VLAN того же сайта |
-|---------|-------------|-------------------|--------------------------------|
-| **`cf-`** | **c**ity **f**lat (квартира в городе) | **`172.16.121.0/24`** | **`10.253.<номер VLAN>.0/24`** — второй октет **253** |
-| **`ch-`** | **c**ountry **h**ouse (загородный участок) | **`172.16.122.0/24`** | **`10.254.<номер VLAN>.0/24`** — как в этом документе (IoT **10**, Voice **20**, Mgmt **30**, …) |
+| Префикс | Расшифровка | Main (L3) | Внутренние VLAN того же сайта | Внешний домен |
+|---------|-------------|-----------|-------------------------------|---------------|
+| **`cf-`** | city flat | **`172.16.121.0/24`** | **`10.253.x.0/24`**, x = номер VLAN на площадке cf | flat.smart.bezpalov.com |
+| **`ch-`** | country house | **`172.16.122.0/24`** | **`10.254.x.0/24`**, x = номер VLAN (как в этом документе) | home.smart.bezpalov.com |
 
-Подсеть **`172.16.120.0/24`** — отдельный **внешний** сайт (облако / резервный DNS **reserv**), в этой схеме **не** относится к префиксам **cf-**/**ch-**.
+**`172.16.120.0/24`** — отдельный внешний сайт (облако), не cf-/ch-; хост **reserv** для tertiary DNS.
 
 ## Основное оборудование
 
 | Устройство | Модель | IP-адрес (L3 / управление) | Роль | Порты / uplink (по конфигам) |
 |------------|--------|---------------------------|------|--------------------------------|
-| Маршрутизатор Pri | Fortinet **FGT-61E** (в инвентаризации Main: **ch-router**) | **172.16.122.1** (VLAN 1 / `internal`), GW для IoT/Voice/Mgmt/Guests/Video; **wan1** PPPoE «isp-optic»; **wan2** DHCP «isp-reserv» | Основной шлюз, DHCP, NAT, VPN, политики | Физ. порт **internal7** → стек коммутаторов (hard-switch `internal`); WAN на провайдеров |
+| Маршрутизатор Pri | Fortinet **FGT-61E** (hostname FGT-61E) | **172.16.122.1** (VLAN 1 / `internal`), GW для IoT/Voice/Mgmt/Guests/Video; **wan1** PPPoE «isp-optic»; **wan2** DHCP «isp-reserv» | Основной шлюз, DHCP, NAT, VPN, политики | Физ. порт **internal7** → стек коммутаторов (hard-switch `internal`); WAN на провайдеров |
 | Маршрутизатор Sec | MikroTik **RB912R-2nD**, RouterOS **7.22.2** (`identity` **ch-router-lte**, serial D5940D4DAA23) | **10.10.12.1/24** на `bridge` (DHCP **10.10.12.10–250**, домен `public.bezpalov.com`); LTE **mts** — APN `internet.mts.ru`, IPv4, peer DNS выкл.; **WireGuard** `back-to-home-vpn`, listen **6205/udp** | Резервный WAN (**МТС LTE**), локальный DHCP/NAT при работе через LTE, Wi‑Fi IoT/Video, обратный VPN | **ether1** в `bridge` → **CX Gi0/12** (trunk VLAN **10, 50**, native **155**); **wlan-iot** SSID **RSW-Country-Base** (VLAN 10); **wlan-video** SSID **RSW-Video** (VLAN 50); SNMP **src-address 10.10.12.1**, community ACL **172.16.122.15/32**, **10.10.12.0/24** |
 | Коммутатор 1 | Cisco **3560CG-8PC-S** | **172.16.122.252** (SVI Vlan1), **10.254.30.252** (Vlan30 активен); остальные SVI в `shutdown` | L2/L3, DHCP relay → FGT | hostname **ch-switch-01**; uplink **Gi0/9** → CX Gi0/13; **Gi0/10** → ISW16803 |
 | Коммутатор 2 | Cisco **3560CX-12PC-S** | **172.16.122.253** (Vlan1), **10.254.30.253** (Vlan30) | L2/L3, первый hop к WAN VLAN и FGT | hostname **ch-switch-02**; **Gi0/1** VLAN 150 «Router WAN Pri»; **Gi0/2** VLAN 155 «Router WAN Sec»; **Gi0/3** trunk → FGT LAN |
 | Коммутатор 3 | Extreme **ISW16803** | **10.254.30.4** (Vlan30); Vlan1 **no ip address** | Доступ к камерам / кольцу, SNMP к Zabbix | hostname **ISW16803**; default route **10.254.30.1**; **Gi1/5–1/8** trunks; камеры VLAN 50 на **Gi1/1–1/3** |
 | Коммутатор 4 | Dahua **DH-CS4006-4GT-60** | Нет в приложенных `.conf` | PoE / видеокольцо (по топологии) | На **CG** **Gi0/10** description «Uplink 2 (4006)» |
-| Минисервер | AMD / **Proxmox VE 9.1.9** | **172.16.122.2** (**ch-raven**) в инвентаризации Main; в L2 — «Hypervisor» на **CG Gi0/2**, trunk **1,10,20,30,50** | Виртуализация | **CG Gi0/2** description «Hypervisor», trunk **1,10,20,30,50** |
+| Минисервер | AMD / **Proxmox VE 9.1.9** | Адрес хоста не задан в switch-конфиге; доступ по VLAN с trunk; в инвентаризации Main — **ch-raven** **172.16.122.2** | Виртуализация | **CG Gi0/2** description «Hypervisor», trunk **1,10,20,30,50** |
 
 ## Физическое размещение (инвентаризация, не из `.conf`)
 
-- **Boiler Room (бойлерная = серверная):** коммутационный шкаф; **FortiGate**; **Cisco** **ch-switch-01** и **ch-switch-02**; **PVE** (гипервизор); **NVR**; панель **AX Pro** (охрана); газовый котёл **Kiturami World Alpha C** (модуль **NCTR-100WR**, Wi‑Fi / **Tuya** — см. [`09-devices.md`](09-devices.md)).
+- **Boiler Room (бойлерная = серверная):** коммутационный шкаф; **FortiGate**; **Cisco** **ch-switch-01** и **ch-switch-02**; **PVE** (гипервизор); **NVR**; панель **AX Pro** (охрана).
 - **Cabin (бытовка):** **Extreme ISW16803** (коммутатор 3); **MikroTik** **ch-router-lte** (LTE / резервный WAN).
 - **Bathhouse, 1-й этаж:** коммутатор **Dahua DH-CS4006-4GT-60** (коммутатор 4).
 
