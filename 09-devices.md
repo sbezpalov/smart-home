@@ -21,6 +21,7 @@
 | TV 4K | MN893LL/A | Гостиная | Dining Room |
 | HomePod Mini | MJ2D3LL/A | Гостиная | Dining Room |
 | HomePod Mini | MY5G2ZP/A | Гостиная | Dining Room |
+| Doorbell G4 | G4 | Крыльцо | Doorstep |
 
 Экосистемы и протоколы — ниже и в [`08-ecosystem.md`](08-ecosystem.md).
 
@@ -44,6 +45,7 @@
 | YandexStationMini | — | Living Room C | 10 (IoT) | *(уточнить, DHCP-reserve)* | Яндекс (Алиса) | Voice assistant |
 | Yandex-Lite-gen2 | — | Living Room L | 10 (IoT) | *(уточнить, DHCP-reserve)* | Яндекс (Алиса) | Voice assistant |
 | Котёл Kiturami | World Alpha C | Boiler Room | 10 (IoT) | *(уточнить, DHCP-reserve)* | Tuya (модуль **NCTR-100WR**, Wi‑Fi) | Газовый котёл |
+| Doorbell G4 | Aqara Doorbell Camera Hub **G4** | Doorstep | 10 (IoT) | *(уточнить, DHCP-reserve)* | Aqara | Видеозвонок на **крыльце**; **динамик (chime)** в **Living Room F** · `lumi1.54ef445d9665` |
 
 ### Медиа-кластер (Dining Room)
 
@@ -84,6 +86,19 @@
 | Smoke Detector | Aqara JY-GZ-03AQ | `54EF44100080A1A1` | Пожарный датчик дыма |
 
 Сводка по зонам — [`05-rooms.md`](05-rooms.md).
+
+---
+
+## Крыльцо (Doorstep) — Aqara
+
+Зона **Doorstep** (план **10**); в **Aqara Home** комната звонка — *Doorstep* / крыльцо. VLAN **10 (IoT)**. Параллельно с Hikvision **DS-KV6113** (калитка, VLAN 50) — другой контур.
+
+| Имя (UI) | Модель | Device ID | Зона установки | Роль |
+|----------|--------|-----------|----------------|------|
+| Doorbell G4 | Aqara Doorbell Camera Hub **G4** | `lumi1.54ef445d9665` | **Doorstep** (кнопка / камера на крыльце) | Видеозвонок, детекция у двери |
+| *(динамик G4)* | *(в составе G4)* | `lumi1.54ef445d9665` | **Living Room F** | Звонок внутри дома (chime) |
+
+> Один аксессуий **G4**: наружный блок на **Doorstep**, внутренний динамик привязан к комнате **Living Room F** в Aqara Home / Apple Home.
 
 ---
 
